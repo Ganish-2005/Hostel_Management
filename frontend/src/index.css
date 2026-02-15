@@ -1,0 +1,37 @@
+/* Navbar Styling */
+.navbar {
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px); /* Modern frosted glass effect */
+  background-color: rgba(13, 110, 253, 0.95) !important; /* Semi-transparent Primary */
+}
+
+.nav-link {
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+  opacity: 0.85;
+}
+
+.nav-link:hover {
+  opacity: 1 !important;
+}
+
+/* Custom Active Link Indicator */
+.active-link {
+  opacity: 1 !important;
+  position: relative;
+}
+
+.active-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  background-color: white;
+  border-radius: 2px;
+}
+
+.navbar-brand {
+  letter-spacing: -0.5px;
+}
