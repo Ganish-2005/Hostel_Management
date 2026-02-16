@@ -1,6 +1,7 @@
 from pathlib import Path
 from datetime import timedelta
 import os
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,11 +9,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY SETTINGS
 # ==============================
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-secret-key")
+SECRET_KEY = config("DJANGO_SECRET_KEY", default="unsafe-secret-key")
 
-DEBUG = True  # Set False in production
+DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1").split(",")
 
 # ==============================
 # APPLICATIONS
@@ -73,12 +74,12 @@ WSGI_APPLICATION = 'ksr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("DB_NAME", "ksr_db"),
-        'USER': os.getenv("DB_USER", "root"),
-        'PASSWORD': os.getenv("DB_PASSWORD", "Root"),
-        'HOST': os.getenv("DB_HOST", "localhost"),
-        'PORT': os.getenv("DB_PORT", "3306"),
+        'ENGINE': config("DB_ENGINE", default="django.db.backends.mysql"),
+        'NAME': config("DB_NAME", default="ksr_db"),
+        'USER': config("DB_USER", default="root"),
+        'PASSWORD': config("DB_PASSWORD", default="Root"),
+        'HOST': config("DB_HOST", default="localhost"),
+        'PORT': config("DB_PORT", default="3306"),
     }
 }
 
@@ -92,10 +93,10 @@ AUTH_USER_MODEL = 'myapp.User'
 # CORS CONFIGURATION
 # ==============================
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+CORS_ALLOWED_ORIGINS = config(
+    "CORS_ALLOWED_ORIGINS",
+    default="http://localhost:5173,http://127.0.0.1:5173"
+).split(",")
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -162,8 +163,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv("EMAIL_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
+EMAIL_HOST_USER = config("EMAIL_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD", default="")
 
 # ==============================
 # DEFAULT PRIMARY KEY
